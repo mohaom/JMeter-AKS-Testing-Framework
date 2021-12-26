@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-slaves
+  labels:
+    jmeter_mode: slave
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      jmeter_mode: slave
+  template:
+    metadata:
+      labels:
+        jmeter_mode: slave
+    spec:
+      containers:
+      - name: jmslave
+        image: ###acrname###.azurecr.io/testframework/jmeterslave:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+        resources:
+          requests:
+            cpu: 3
+            memory: 12G
+          limits:
+            cpu: 3
+            memory: 12G
